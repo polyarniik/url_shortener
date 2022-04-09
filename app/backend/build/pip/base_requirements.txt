@@ -1,2 +1,4 @@
 django~=3.2.12
 psycopg2-binary==2.9.3
+django-bootstrap-static~=4.2.1
+

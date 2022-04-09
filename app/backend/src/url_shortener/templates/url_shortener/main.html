@@ -1,17 +1,13 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Link Shorter</title>
-</head>
-<body>
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Shorter</button>
-    <br/>
-</form>
-<a href="{{ short_link }}">{{ short_link }}</a>
-</body>
-</html>
+{% extends "url_shortener/partials/base.html" %}
+{% block title %}Short{% endblock %}
+{% block content %}
+    {% include "url_shortener/partials/header.html" %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Shorter</button>
+        <br/>
+    </form>
+    <a href="{{ short_link }}">{{ short_link }}</a>
+{% endblock %}

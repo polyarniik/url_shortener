@@ -1,0 +1,30 @@
+{% extends 'url_shortener/partials/base.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+{% block include_css %}
+    <link rel="stylesheet" href="{% static 'css/sign.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="content-center text-center">
+        <form method="post" action="{% url "main:login" %}" class="form-sign">
+            {% csrf_token %}
+            <h3 class="mb-3 font-weight-normal">Login</h3>
+            <input name="username" type="text" id="id_username" class="form-control"
+                   placeholder="Username"
+                   required autofocus>
+            <input name="password" type="password" id="id_password" class="form-control"
+                   placeholder="Password"
+                   required>
+            <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Login
+            </button>
+            {% if form.errors %}
+                {% for fields, error in form.errors.items %}
+                    <div class="alert alert-danger mt-3" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </form>
+        <p class="text-center">If you don't have an account, <a href="{% url "main:register" %}">register</a> instead.</p>
+    </div>
+{% endblock %}
