@@ -10,7 +10,15 @@ from url_shortener.models import URL
 
 
 def register_request(request):
+    """
+    Регистрация пользователя
+    :param request:
+    :return:
+    """
     if request.method == "POST":
+        """
+        Обработка формы
+        """
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
@@ -25,6 +33,9 @@ def register_request(request):
             "Unsuccessful registration. Invalid information.",
         )
     if request.user.is_authenticated:
+        """
+        Если пользователь авторизован, то он перенаправляется на домашнюю страницу
+        """
         redirect("main:home")
     form = UserCreationForm()
     return render(
@@ -35,7 +46,15 @@ def register_request(request):
 
 
 def login_request(request):
+    """
+    Авторизация пользователя
+    :param request:
+    :return:
+    """
     if request.method == "POST":
+        """
+        Обработка формы
+        """
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get("username")
@@ -50,6 +69,9 @@ def login_request(request):
         else:
             messages.error(request, "Invalid username or password.")
     elif request.user.is_authenticated:
+        """
+        Если пользователь авторизован, то он перенаправляется на домашнюю страницу
+        """
         redirect("main:home")
     else:
         form = AuthenticationForm()
@@ -61,6 +83,11 @@ def login_request(request):
 
 
 def logout_request(request):
+    """
+    Выход пользователя из своего аккаунта
+    :param request:
+    :return:
+    """
     logout(request)
     messages.info(request, "You have successfully logged out.")
     return redirect("main:home")
@@ -68,7 +95,15 @@ def logout_request(request):
 
 @login_required()
 def main_page_view(request):
+    """
+    Страница с формой для укорачивания ссылки
+    :param request:
+    :return:
+    """
     if request.method == "POST":
+        """
+        Обработка формы
+        """
         form = LinkForm(request.POST)
         data = {}
         if form.is_valid():
@@ -82,6 +117,9 @@ def main_page_view(request):
         return redirect("main:home")
 
     if request.method == "GET":
+        """
+        Рендеринг страницы с формой
+        """
         form = LinkForm()
         urls = request.user.urls.all()
         return render(
@@ -95,6 +133,12 @@ def main_page_view(request):
 
 
 def redirect_view(request, short):
+    """
+    Перенаправление пользователя на ссылку, которая была укорочена
+    :param request:
+    :param short:
+    :return:
+    """
     short_link = get_object_or_404(URL, short_url=short)
     short_link.increase_visits_count()
     short_link.save()

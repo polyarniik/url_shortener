@@ -3,6 +3,11 @@ import random
 
 
 def shorter(link):
+    """
+    Укорачивание ссылки
+    :param link:
+    :return:
+    """
     link_hash = hashlib.md5(str(link[0]).encode("UTF-8"))
     short_link = ""
     for i in range(0, random.randrange(4, 7)):

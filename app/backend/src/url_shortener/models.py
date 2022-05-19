@@ -22,6 +22,9 @@ class URL(models.Model):
         return short
 
     def increase_visits_count(self):
+        """
+        Метод для увеличения количества переходов по ссылке
+        """
         self.visits_count += 1
 
     def __str__(self):
