@@ -7,9 +7,11 @@ User = get_user_model()
 
 
 class URL(models.Model):
-    url = models.URLField(verbose_name='URL')
-    short_url = models.URLField(verbose_name='Short URL')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="User", related_name="urls")
+    url = models.URLField(verbose_name="URL")
+    short_url = models.URLField(verbose_name="Short URL")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name="User", related_name="urls",
+    )
     visits_count = models.IntegerField(default=0, verbose_name="Visits count")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created time")
 

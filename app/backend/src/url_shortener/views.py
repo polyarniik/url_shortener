@@ -38,8 +38,8 @@ def login_request(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
@@ -53,7 +53,11 @@ def login_request(request):
         redirect("main:home")
     else:
         form = AuthenticationForm()
-        return render(request=request, template_name="url_shortener/sign_in.html", context={"login_form": form})
+        return render(
+            request=request,
+            template_name="url_shortener/sign_in.html",
+            context={"login_form": form},
+        )
 
 
 def logout_request(request):
@@ -64,12 +68,12 @@ def logout_request(request):
 
 @login_required()
 def main_page_view(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = LinkForm(request.POST)
         data = {}
         if form.is_valid():
             url = URL(
-                url=form.cleaned_data['url'],
+                url=form.cleaned_data["url"],
                 user=request.user,
             )
 
@@ -77,13 +81,17 @@ def main_page_view(request):
             request.session["last_url"] = url.short_url
         return redirect("main:home")
 
-    if request.method == 'GET':
+    if request.method == "GET":
         form = LinkForm()
         urls = request.user.urls.all()
-        return render(request, 'url_shortener/main.html', {
-            'form': form,
-            "urls": urls,
-        })
+        return render(
+            request,
+            "url_shortener/main.html",
+            {
+                "form": form,
+                "urls": urls,
+            },
+        )
 
 
 def redirect_view(request, short):

@@ -4,4 +4,4 @@ from django.contrib.auth.models import User
 
 
 class LinkForm(forms.Form):
-    url = forms.URLField(label='Link')
+    url = forms.URLField(label="Link")
