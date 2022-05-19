@@ -112,10 +112,7 @@ def main_page_view(request):
         return render(
             request,
             "url_shortener/main.html",
-            {
-                "form": form,
-                "url": request.user.urls.last()
-            },
+            {"form": form, "url": request.user.urls.last()},
         )
 
 
@@ -134,13 +131,7 @@ def redirect_view(request, short):
 
 def urls_list(request):
     urls = request.user.urls.order_by("-visits_count").all()
-    return render(
-        request,
-        "url_shortener/urls_list.html",
-        context={
-            "urls": urls
-        }
-    )
+    return render(request, "url_shortener/urls_list.html", context={"urls": urls})
 
 
 def delete_url(request, pk):

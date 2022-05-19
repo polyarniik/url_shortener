@@ -15,7 +15,7 @@
 
             <div class="d-sm-flex align-items-baseline text-center">
                 <p class="mr-auto text-left">Redirect to <a class="url-target-link" href="{{ url.url }}"
-                                                           target="_blank">{{ url.url }}</a></p>
+                                                            target="_blank">{{ url.url }}</a></p>
                 <form action="{% url 'main:delete' url.id %}" method="post" class="d-inline d-sm-block">
                     {% csrf_token %}
                     <input class="btn btn-primary" type="submit" value="Delete">
