@@ -1,0 +1,46 @@
+{% extends 'url_shortener/partials/base.html' %}
+{% load static %}
+{% block title %}Register{% endblock %}
+{% block content %}
+
+    <div class="mx-auto login-page">
+        <h1>Register</h1>
+        <div>
+            <form method="post" action="{% url "main:register" %}" class="mt-5 mb-4">
+                {% csrf_token %}
+                <input name="username" type="text" id="id_username" class="search d-block mx-auto mt-3 w-100"
+                       placeholder="Email"
+                       required
+                       autofocus>
+                <input name="password1" type="password" id="id_password1" class="search d-block mx-auto mt-3 w-100"
+                       placeholder="Password"
+                       minlength="8" required>
+                <input name="password2" type="password" id="id_password2"
+                       class="search d-block mx-auto mt-3 w-100"
+                       placeholder="Repeat password" minlength="8" required>
+                <button class="d-block mx-auto mt-3 btn btn-primary w-100" type="submit">
+                    Register
+                </button>
+                {% if form.errors %}
+                    <div class="mt-5">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </form>
+            <p class="text-center">If you already have an account, <a href="{% url "main:login" %}">login</a> instead.
+            </p>
+        </div>
+    </div>
+{% endblock %}
+

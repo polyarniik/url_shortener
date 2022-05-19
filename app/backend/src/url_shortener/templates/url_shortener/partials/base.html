@@ -1,0 +1,29 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    {% block include_css %}{% endblock %}
+</head>
+<body>
+<main class="mt-sm-5 pt-3 mb-5 main">
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</main>
+{% include "url_shortener/partials/footer.html" %}
+<script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script defer src="{% static 'fontawesome/js/all.min.js' %}"></script>
+{% block scripts %}
+{% endblock %}
+</body>
+</html>
