@@ -1,0 +1,59 @@
+.blue-area {
+    padding: 0 15px;
+    height: 80px;
+    line-height: 80px;
+    background-color: #012a77;
+}
+
+.logo {
+    background-position: -5px -82px;
+    width: 310px;
+    height: 61px;
+}
+
+.label-style {
+    white-space: nowrap;
+}
+
+.label-style:before, .label-style:after {
+    top: calc((100% - 1rem) / 2) !important;
+}
+
+.font-size30 {
+    font-size: 22px;
+}
+
+.radio label {
+    padding: 20px;
+    font-size: 24px;
+    width: 240px;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 20px;
+    transition: all .3s;
+    border: 2px solid grey;
+    border-radius: 0.3em;
+}
+
+.radio label:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.radio input {
+    display: none;
+}
+
+.radio input:checked + label {
+    border-color: green;
+    color: green;
+    background-color: rgba(0, 255, 0, 0.1);
+
+}
+
+[data-href] {
+    cursor: pointer;
+}
