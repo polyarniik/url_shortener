@@ -1,30 +1,40 @@
 {% extends 'url_shortener/partials/base.html' %}
 {% load static %}
 {% block title %}Login{% endblock %}
-{% block include_css %}
-    <link rel="stylesheet" href="{% static 'css/sign.css' %}">
-{% endblock %}
 {% block content %}
-    <div class="content-center text-center">
-        <form method="post" action="{% url "main:login" %}" class="form-sign">
-            {% csrf_token %}
-            <h3 class="mb-3 font-weight-normal">Login</h3>
-            <input name="username" type="text" id="id_username" class="form-control"
-                   placeholder="Username"
-                   required autofocus>
-            <input name="password" type="password" id="id_password" class="form-control"
-                   placeholder="Password"
-                   required>
-            <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Login
-            </button>
-            {% if form.errors %}
-                {% for fields, error in form.errors.items %}
-                    <div class="alert alert-danger mt-3" role="alert">
-                        {{ error }}
+
+    <div class="mx-auto login-page">
+        <h1>Login</h1>
+        <div>
+            <form method="post" action="{% url "main:login" %}" class="mt-5 mb-4">
+                {% csrf_token %}
+                <input name="username" type="text" id="id_username" class="search d-block mx-auto mt-3 w-100"
+                       placeholder="Username"
+                       required autofocus>
+                <input name="password" type="password" id="id_password" class="search d-block mx-auto mt-3 w-100"
+                       placeholder="Password"
+                       required>
+                <button class="d-block mx-auto mt-3 btn btn-primary w-100" type="submit">Login
+                </button>
+                {% if form.errors %}
+                    <div class="mt-5">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
-            {% endif %}
-        </form>
-        <p class="text-center">If you don't have an account, <a href="{% url "main:register" %}">register</a> instead.</p>
+                {% endif %}
+            </form>
+            <p class="text-center">If you don't have an account, <a href="{% url "main:register" %}">register</a>
+                instead.</p>
+        </div>
     </div>
 {% endblock %}

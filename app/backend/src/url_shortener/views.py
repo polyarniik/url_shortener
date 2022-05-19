@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 
 from url_shortener.forms import LinkForm
@@ -23,15 +23,8 @@ def register_request(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(
-                request,
-                "Registration successful.",
-            )
             return redirect("main:home")
-        messages.error(
-            request,
-            "Unsuccessful registration. Invalid information.",
-        )
+        return render(request, "url_shortener/sign_up.html", context={"form": form})
     if request.user.is_authenticated:
         """
         Если пользователь авторизован, то он перенаправляется на домашнюю страницу
@@ -60,14 +53,9 @@ def login_request(request):
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
             user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
-                return redirect("main:home")
-            else:
-                messages.error(request, "Invalid username or password.")
-        else:
-            messages.error(request, "Invalid username or password.")
+            login(request, user)
+            return redirect("main:home")
+        return render(request, "url_shortener/sign_in.html", context={"form": form})
     elif request.user.is_authenticated:
         """
         Если пользователь авторизован, то он перенаправляется на домашнюю страницу
@@ -121,13 +109,12 @@ def main_page_view(request):
         Рендеринг страницы с формой
         """
         form = LinkForm()
-        urls = request.user.urls.all()
         return render(
             request,
             "url_shortener/main.html",
             {
                 "form": form,
-                "urls": urls,
+                "url": request.user.urls.last()
             },
         )
 
@@ -145,10 +132,24 @@ def redirect_view(request, short):
     return HttpResponseRedirect(short_link.url)
 
 
-def delete_link(request):
+def urls_list(request):
+    urls = request.user.urls.order_by("-visits_count").all()
+    return render(
+        request,
+        "url_shortener/urls_list.html",
+        context={
+            "urls": urls
+        }
+    )
+
+
+def delete_url(request, pk):
+    """
+    Удаление ссылки
+    :param request:
+    :param pk:
+    :return:
+    """
     if request.method == "POST":
-        ...
-        # todo delete
-        # request.POST
-    else:
-        redirect("main:home")
+        URL.objects.filter(id=pk, user=request.user).delete()
+    return redirect("main:urls")

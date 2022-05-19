@@ -1,0 +1,26 @@
+{% extends "url_shortener/partials/base.html" %}
+{% block title %}All links{% endblock %}
+{% block content %}
+    {% include "url_shortener/partials/header.html" %}
+    <h2>All urls</h2>
+    {% for url in urls %}
+        <div class="url-row mt-4 text-left">
+            <div class="d-flex align-items-center">
+                <h4 class="mr-auto">
+                    <a href="{{ url.short_name_with_host }}" class="url-link">{{ url.short_name_with_host }}</a>
+                </h4>
+                <h6 class="d-none d-sm-block">{{ url.visits_count }} clicks </h6>
+            </div>
+            <p>Created on {{ url.created_at }}</p>
+
+            <div class="d-sm-flex align-items-baseline text-center">
+                <p class="mr-auto text-left">Redirect to <a class="url-target-link" href="{{ url.url }}"
+                                                           target="_blank">{{ url.url }}</a></p>
+                <form action="{% url 'main:delete' url.id %}" method="post" class="d-inline d-sm-block">
+                    {% csrf_token %}
+                    <input class="btn btn-primary" type="submit" value="Delete">
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

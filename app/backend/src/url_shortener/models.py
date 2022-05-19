@@ -1,3 +1,6 @@
+from urllib.parse import urljoin
+
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -14,6 +17,10 @@ class URL(models.Model):
     )
     visits_count = models.IntegerField(default=0, verbose_name="Visits count")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created time")
+
+    @property
+    def short_name_with_host(self):
+        return urljoin(settings.HOSTNAME, self.short_url)
 
     def __get_shorter_link(self):
         short = shorter(self.url)
