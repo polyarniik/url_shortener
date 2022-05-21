@@ -24,7 +24,9 @@ def register_request(request):
             user = form.save()
             login(request, user)
             return redirect("main:home")
-        return render(request, "url_shortener/sign_up.html", context={"form": form})
+        return render(
+            request, "url_shortener/sign_up.html", context={"form": form}, status=403
+        )
     if request.user.is_authenticated:
         """
         Если пользователь авторизован, то он перенаправляется на домашнюю страницу
@@ -55,7 +57,9 @@ def login_request(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             return redirect("main:home")
-        return render(request, "url_shortener/sign_in.html", context={"form": form})
+        return render(
+            request, "url_shortener/sign_in.html", context={"form": form}, status=403
+        )
     elif request.user.is_authenticated:
         """
         Если пользователь авторизован, то он перенаправляется на домашнюю страницу

@@ -9,5 +9,5 @@ urlpatterns = [
     path("logout", views.logout_request, name="logout"),
     path("my", views.urls_list, name="urls"),
     path("delete/<int:pk>", views.delete_url, name="delete"),
-    path("<str:short>/", views.redirect_view),
+    path("<str:short>/", views.redirect_view, name="short_url"),
 ]
