@@ -64,7 +64,7 @@ def login_request(request):
         """
         Если пользователь авторизован, то он перенаправляется на домашнюю страницу
         """
-        redirect("main:home")
+        return redirect("main:home")
     else:
         form = AuthenticationForm()
         return render(
@@ -133,11 +133,18 @@ def redirect_view(request, short):
     return HttpResponseRedirect(short_link.url)
 
 
+@login_required()
 def urls_list(request):
+    """
+    Получения списка ссылок пользователя
+    :param request:
+    :return:
+    """
     urls = request.user.urls.order_by("-visits_count").all()
     return render(request, "url_shortener/urls_list.html", context={"urls": urls})
 
 
+@login_required()
 def delete_url(request, pk):
     """
     Удаление ссылки
